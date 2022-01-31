@@ -1,17 +1,37 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import axios from "axios";
 
 import imgFirstCard from "../public/images/phone.png";
 
 import { Header } from "../components/Header";
 import { ProductCard } from "../components/ProductCard";
 
-import styles from "../styles/Home.module.scss";
 import { Footer } from "../components/Footer";
+import { useEffect, useState } from "react";
 
+import styles from "../styles/Home.module.scss";
+
+type Brand = {
+  name: string;
+  code: string;
+  image: string;
+};
 const Home: NextPage = () => {
-  const img = "";
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  useEffect(() => {
+    const data = axios
+      .get("http://localhost:3000/api/brands")
+      .then((response) => {
+        //console.log(response.data);
+        setBrands(response.data.data);
+      })
+      .catch((err) => {
+        return err;
+      });
+  }, []);
+
   return (
     <>
       <Header />
@@ -24,11 +44,7 @@ const Home: NextPage = () => {
 
         <main className={styles.main}>
           <div className={styles.productsList}>
-            <ProductCard
-              imageURL={imgFirstCard}
-              brands={["2", "1"]}
-              price={"240"}
-            />
+            <ProductCard imageURL={imgFirstCard} brands={brands} price={240} />
           </div>
         </main>
       </div>

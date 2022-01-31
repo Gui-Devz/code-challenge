@@ -1,24 +1,57 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 
 import styles from "./product-card.module.scss";
+import { useRouter } from "next/router";
+
+interface Brand {
+  name: string;
+  code: string;
+  image: string;
+}
 
 interface ProductCardProps {
   imageURL: StaticImageData;
-  brands: string[];
-  price: string;
+  brands: Brand[];
+  price: number;
 }
 
 export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
-  const [brand, setBrand] = useState<string>("Bandeiras");
+  const [brand, setBrand] = useState<string>("others");
+  const [brandObj, setBrandObj] = useState<Brand>();
+  const [installment, setInstallment] = useState<number>(1);
 
-  function setBrandState(event: ChangeEvent<HTMLSelectElement>) {
-    setBrand(event.target.value);
+  const router = useRouter();
+
+  function saveProductInMemory() {
+    localStorage?.setItem(
+      "@Simulate:data",
+      JSON.stringify({ installment, brands: [brand], amount: price })
+    );
+    localStorage?.setItem("@Simulate:brand", JSON.stringify({ ...brandObj }));
+
+    router.push("/simulate");
   }
+
+  function settingBrandAndBrandOj(value: string) {
+    const brandObj = brands.filter((x) => value === x.code);
+    console.log(brandObj);
+
+    setBrand(value);
+    setBrandObj(brandObj[0]);
+  }
+  //This side-effect guarantees that brandObj will be populated without
+  //depending the select option value
+  useEffect(() => {
+    const firstObjectBrand = brands?.filter((x) => x.code === "others");
+
+    setBrandObj(firstObjectBrand[0]);
+  }, [brands]);
+
   return (
     <div className={styles.container}>
       <div className={styles.image}>
-        <Image src={imageURL} alt="" />
+        <Image priority src={imageURL} alt="" />
       </div>
       <div className={styles.selectSection}>
         <div>
@@ -28,29 +61,27 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
             value={brand}
             name="brands"
             onChange={(e) => {
-              setBrandState(e);
+              settingBrandAndBrandOj(e.target.value);
             }}
           >
             {brands &&
-              React.Children.toArray(
-                brands.map((brand) => {
-                  return (
-                    <>
-                      <option value={brand}>brand</option>
-                    </>
-                  );
-                })
-              )}
+              brands.map((brand) => {
+                return (
+                  <React.Fragment key={brand.code}>
+                    <option value={brand.code}>{brand.name}</option>
+                  </React.Fragment>
+                );
+              })}
           </select>
         </div>
         <div className={styles.installments}>
-          <label htmlFor="brands">Parcelar</label>
+          <label htmlFor="installment">Parcelar em:</label>
           <select
-            id="brands"
-            value={brand}
-            name="brands"
+            id="installment"
+            value={installment}
+            name="installment"
             onChange={(e) => {
-              setBrandState(e);
+              setInstallment(Number(e.target.value));
             }}
           >
             {React.Children.toArray(
@@ -64,7 +95,7 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
             )}
           </select>
           <p>
-            Valor final:{" "}
+            Valor:{" "}
             <span>
               {Number(price).toLocaleString("pt-BR", {
                 style: "currency",
@@ -74,7 +105,13 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
           </p>
         </div>
       </div>
-      <button onClick={() => {}}>Simular a compra</button>
+      <button
+        onClick={() => {
+          saveProductInMemory();
+        }}
+      >
+        Simular a compra
+      </button>
     </div>
   );
 }

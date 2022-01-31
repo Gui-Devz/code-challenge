@@ -19,7 +19,7 @@ export function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/cart">
+              <Link href="/simulate">
                 <a>Meu carrinho</a>
               </Link>
             </li>

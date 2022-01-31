@@ -1,0 +1,13 @@
+.footer {
+  height: 400px;
+  padding: 5rem;
+  background-color: #000;
+  p {
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--white);
+    span {
+      color: rgb(252, 0, 0);
+    }
+  }
+}

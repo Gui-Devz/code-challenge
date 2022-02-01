@@ -21,15 +21,12 @@ const Home: NextPage = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
 
   useEffect(() => {
-    const data = axios
-      .get("http://localhost:3000/api/brands")
-      .then((response) => {
-        //console.log(response.data);
-        setBrands(response.data.data);
-      })
-      .catch((err) => {
-        return err;
-      });
+    const data = async () => {
+      const response = await axios.get("http://localhost:3000/api/brands");
+
+      setBrands(response.data.data);
+    };
+    data();
   }, []);
 
   return (

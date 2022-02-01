@@ -39,3 +39,10 @@ export default function handler(
       return res.send(err);
     });
 }
+
+//removes false warnings
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};

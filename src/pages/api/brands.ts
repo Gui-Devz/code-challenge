@@ -24,9 +24,20 @@ export default async function handler(
       },
     })
     .then((response) => {
-      return res.status(200).json({ data: response.data });
+      const brandFiltered = response.data.filter(
+        (brand) => brand.code !== "hiper"
+      );
+
+      return res.status(200).json({ data: brandFiltered });
     })
     .catch((err) => {
       return res.send(err);
     });
 }
+
+//removes false warnings
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};

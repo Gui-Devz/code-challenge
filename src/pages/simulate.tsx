@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { ProductSimulatedCard } from "../components/ProductSimulatedCard";
+import { useSimulatedValues } from "../hooks/useSimulate";
 
 import styles from "../styles/Simulate.module.scss";
 
@@ -32,55 +33,32 @@ type SimulateData = {
 };
 
 export default function Simulate() {
-  const [simulateBody, setSimulateBody] = useState<SimulateBody>(() => {
-    const storagedCart =
-      typeof window !== "undefined"
-        ? localStorage.getItem("@Simulate:data")
-        : null;
-
-    if (storagedCart) {
-      return JSON.parse(storagedCart);
-    }
-
-    return undefined;
-  });
-  const [simulateData, setSimulateData] = useState<SimulateData>();
+  //captures the brand obj containing name and image from localStorage
   const [brand, setBrand] = useState<Brand>(() => {
-    const storagedCart =
+    const storagedBrand =
       typeof window !== "undefined"
         ? localStorage.getItem("@Simulate:brand")
         : null;
 
-    if (storagedCart) {
-      return JSON.parse(storagedCart);
+    if (storagedBrand) {
+      return JSON.parse(storagedBrand);
     }
 
     return {};
   });
-
-  useEffect(() => {
-    const data = axios
-      .post("http://localhost:3000/api/simulate", simulateBody)
-      .then((response) => {
-        setSimulateData(response.data.data);
-      })
-      .catch((err) => {
-        return err;
-      });
-  }, [simulateBody]);
-  //console.log(simulateData);
+  const { simulationData } = useSimulatedValues();
 
   return (
     <>
       <Header />
       <main className={styles.productContainer}>
-        {simulateBody && (
+        {simulationData && (
           <ProductSimulatedCard
-            price={simulateBody.amount}
+            price={simulationData.amount}
             brand={brand}
-            installment={simulateData?.installment}
-            tax={simulateData?.brand_simulation[0].tax}
-            taxValue={simulateData?.brand_simulation[0].tax_amount}
+            installment={simulationData?.installment}
+            tax={simulationData?.brand_simulation[0].tax}
+            taxValue={simulationData?.brand_simulation[0].tax_amount}
           />
         )}
       </main>

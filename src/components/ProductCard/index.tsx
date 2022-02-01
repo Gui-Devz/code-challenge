@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import styles from "./product-card.module.scss";
 import { useRouter } from "next/router";
+import { useSimulatedValues } from "../../hooks/useSimulate";
 
 interface Brand {
   name: string;
@@ -21,24 +22,29 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
   const [brandObj, setBrandObj] = useState<Brand>();
   const [installment, setInstallment] = useState<number>(1);
 
+  const { addProductToCart } = useSimulatedValues();
+
   const router = useRouter();
 
-  function saveProductInMemory() {
-    localStorage?.setItem(
-      "@Simulate:data",
-      JSON.stringify({ installment, brands: [brand], amount: price })
-    );
+  function saveProductInMemoryAndInCart() {
+    const data = {
+      amount: price,
+      brands: [brand],
+      installment,
+    };
+    localStorage?.setItem("@Simulate:data", JSON.stringify(data));
     localStorage?.setItem("@Simulate:brand", JSON.stringify({ ...brandObj }));
+
+    addProductToCart(data);
 
     router.push("/simulate");
   }
 
   function settingBrandAndBrandOj(value: string) {
-    const brandObj = brands.filter((x) => value === x.code);
-    console.log(brandObj);
+    const brandFiltered = brands.filter((x) => value === x.code);
 
     setBrand(value);
-    setBrandObj(brandObj[0]);
+    setBrandObj(brandFiltered[0]);
   }
   //This side-effect guarantees that brandObj will be populated without
   //depending the select option value
@@ -107,7 +113,7 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
       </div>
       <button
         onClick={() => {
-          saveProductInMemory();
+          saveProductInMemoryAndInCart();
         }}
       >
         Simular a compra

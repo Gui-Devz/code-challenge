@@ -8,6 +8,10 @@ module.exports = {
   testEnvironment: "jsdom",
   moduleNameMapper: {
     "\\.(scss|css|sass)$": "identity-obj-proxy",
+    /* Handle image imports
+    https://jestjs.io/docs/webpack#handling-static-assets */
+    "^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$":
+      "<rootDir>/__mocks__/fileMock.js",
   },
   collectCoverageFrom: [
     "src/**/*.tsx",

@@ -43,6 +43,7 @@ export function SimulateValuesProvider({
   children,
 }: SimulateValuesProviderProps) {
   const [product, setProduct] = useState<Product>(() => {
+    //this guarantees product will be the same even after user reloads page
     const storagedCart =
       typeof window !== "undefined"
         ? localStorage.getItem("@Simulate:data")

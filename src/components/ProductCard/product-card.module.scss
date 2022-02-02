@@ -14,7 +14,7 @@
   animation: fadein 2s;
 
   .image {
-    height: auto;
+    height: 214px;
     img {
       border-radius: 6px;
     }
@@ -95,6 +95,9 @@
   .container {
     width: 300px;
     min-height: 400px;
+    .image {
+      height: 150px;
+    }
     .selectSection {
       height: 300px;
       padding-bottom: 7rem;

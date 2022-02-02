@@ -12,7 +12,7 @@ interface Brand {
 }
 
 interface ProductCardProps {
-  imageURL: StaticImageData;
+  imageURL: StaticImageData | string;
   brands: Brand[];
   price: number;
 }
@@ -32,6 +32,8 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
       brands: [brand],
       installment,
     };
+
+    //this guarantees product will be the same even after user reloads page
     localStorage?.setItem("@Simulate:data", JSON.stringify(data));
     localStorage?.setItem("@Simulate:brand", JSON.stringify({ ...brandObj }));
 
@@ -57,13 +59,14 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
   return (
     <div className={styles.container}>
       <div className={styles.image}>
-        <Image priority src={imageURL} alt="" />
+        <Image priority height={215} width={380} src={imageURL} alt="" />
       </div>
       <div className={styles.selectSection}>
         <div>
           <label htmlFor="brands">Escolha a sua bandeira do cartão</label>
           <select
             id="brands"
+            data-testid="select"
             value={brand}
             name="brands"
             onChange={(e) => {
@@ -112,6 +115,7 @@ export function ProductCard({ imageURL, brands, price }: ProductCardProps) {
         </div>
       </div>
       <button
+        data-testid="button"
         onClick={() => {
           saveProductInMemoryAndInCart();
         }}

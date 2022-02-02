@@ -34,7 +34,7 @@ export function ProductSimulatedCard({
     <div className={styles.main}>
       <div className={styles.container}>
         <div className={styles.image}>
-          <Image src={imageURL} alt="" />
+          <Image width={380} height={214} src={imageURL} alt="" />
         </div>
         <div className={styles.data}>
           <div>
@@ -87,6 +87,7 @@ export function ProductSimulatedCard({
           </div>
         </div>
         <button
+          data-testid="button"
           onClick={() => {
             redirectToHome();
           }}

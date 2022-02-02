@@ -8,10 +8,10 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.logo}>
-        <Image src={logoFooter} alt="" />
+        <Image width={400} height={110} src={logoFooter} alt="" />
       </div>
       <div>
-        <p>
+        <p data-testid="footer-paragraph">
           Made by Guilherme with <span>&#10084;</span>
         </p>
       </div>

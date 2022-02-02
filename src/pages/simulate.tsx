@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { ProductSimulatedCard } from "../components/ProductSimulatedCard";
@@ -11,25 +10,6 @@ type Brand = {
   name: string;
   code: string;
   image: string;
-};
-
-type SimulateBody = {
-  amount: number;
-  brands: string[];
-  installment: number;
-};
-
-type BrandSimulation = {
-  brand: string;
-  tax: number;
-  tax_amount: number;
-};
-
-type SimulateData = {
-  amount: number;
-  brands: string[];
-  installment: number;
-  brand_simulation: BrandSimulation[];
 };
 
 export default function Simulate() {

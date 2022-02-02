@@ -9,7 +9,7 @@ export function Header() {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <Image src={logoImg} alt="" />
+          <Image width={300} height={80} src={logoImg} alt="" />
         </div>
         <nav>
           <ul>

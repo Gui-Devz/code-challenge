@@ -7,7 +7,7 @@
 <h4 align="center">
   Code challenge 🚀
 </h4>
-<div style="display:flex; gap:5px; justify-content:center; margin: 15px 0; width:100%;">
+<div align="center" style="display:flex; gap:5px; justify-content:center; margin: 15px 0; width:100%;">
 
   <a>
     <img alt="Repository size" src="https://img.shields.io/github/repo-size/Gui-Devz/code-challenge">

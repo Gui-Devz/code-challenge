@@ -55,7 +55,7 @@ export function SimulateValuesProvider({
 
     return {};
   });
-  const [simulationData, setSimulationData] = useState();
+  const [simulationData, setSimulationData] = useState<SimulateData>();
 
   function addProductToCart(product: Product) {
     setProduct(product);

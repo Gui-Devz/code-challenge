@@ -7,13 +7,15 @@ import styles from "./footer.module.scss";
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.logo}>
-        <Image width={400} height={110} src={logoFooter} alt="" />
-      </div>
-      <div>
-        <p data-testid="footer-paragraph">
-          Made by Guilherme with <span>&#10084;</span>
-        </p>
+      <div className={styles.container}>
+        <div className={styles.logo}>
+          <Image width={400} height={110} src={logoFooter} alt="" />
+        </div>
+        <div>
+          <p data-testid="footer-paragraph">
+            Made by Guilherme with <span>&#10084;</span>
+          </p>
+        </div>
       </div>
     </footer>
   );
